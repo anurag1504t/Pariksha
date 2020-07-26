@@ -51,3 +51,14 @@ exports.verifyAdmin = function(req,res,next){
         return next();
     }
 };
+
+exports.verifyFaculty = function(req,res,next){
+    if(req.user.faculty !== true)  {
+        var err = new Error('Only Faculty can perform this Operation. You are not authorized to perform this operation!');
+        err.status = 403;
+        next(err);
+    }
+    else {
+        return next();
+    }
+};
