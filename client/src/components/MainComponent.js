@@ -11,7 +11,9 @@ class Main extends Component {
 
         const HomePage = () => {
             return (
-                <h4>Welcome to Pariksha ...</h4>
+                <div className="container">
+                    <h4>Welcome to Pariksha ...</h4>
+                </div>                
             );            
         }
 

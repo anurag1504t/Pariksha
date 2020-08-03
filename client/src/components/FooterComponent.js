@@ -40,7 +40,7 @@ function Footer(props) {
             </div>
             <div className="row justify-content-center">             
                 <div className="col-auto">
-                    <p>© Copyright 2020 Pariksha</p>
+                    <p>© {new Date().getFullYear()} Pariksha</p>
                 </div>
             </div>
         </div>
