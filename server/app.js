@@ -13,6 +13,7 @@ var config = require('./config');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/uploadRouter');
+var examRouter = require('./routes/examRouter');
 
 // Establishing Database Connection
 const url = config.mongoUrl;
@@ -32,8 +33,10 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('./exams', examRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'pug');
 
 app.use('/imageUpload',uploadRouter);
 
