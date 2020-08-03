@@ -69,7 +69,11 @@ const examSchema = new Schema({
         type: String,
         default: ''
     },
-    scheduled:{
+    start:{
+        type: Date, 
+        default: Date.now
+    },
+    end:{
         type: Date, 
         default: Date.now
     },

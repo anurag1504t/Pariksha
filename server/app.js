@@ -24,16 +24,6 @@ connect.then((db) => {
 
 var app = express();
 
-// Secure traffic only
-// app.all('*', (req, res, next) => {
-//     if (req.secure) {
-//       return next();
-//     }
-//     else {
-//       res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
-//     }
-// });
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
