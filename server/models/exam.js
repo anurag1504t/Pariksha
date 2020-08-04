@@ -84,6 +84,6 @@ const examSchema = new Schema({
     timestamps: true
 });
 
-var Dishes = mongoose.model('Exam', examSchema);
+var Exams = mongoose.model('Exam', examSchema);
 
-module.exports = Dishes;
+module.exports = Exams;

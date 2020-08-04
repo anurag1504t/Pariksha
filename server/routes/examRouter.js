@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const Exams = require('../models/exam');
 
 const examRouter = express.Router();
-
 examRouter.use(bodyParser.json());
 
 // Methods for http://localhost:3000/exams/ API end point
