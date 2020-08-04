@@ -43,7 +43,7 @@ var Numerical = new Schema({
     timestamps: true
 });
 
-var Descriptive = new Schema({
+var Subjective = new Schema({
     question: {
         type: String,
         required: true
@@ -79,7 +79,7 @@ const examSchema = new Schema({
     },
     multiple: [MCQ],
     numerical: [Numerical],
-    descriptive: [Descriptive]
+    subjective: [Subjective]
 }, {
     timestamps: true
 });
