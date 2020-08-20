@@ -21,11 +21,12 @@ class Contact extends Component {
     handleSubmit(values) {
         alert('Current State is: ' + JSON.stringify(values));
         // POST feedback in Server
-        // this.props.postFeedback(values);
-        // this.props.resetFeedbackForm();
+        this.props.postFeedback(values);
+        this.props.resetFeedbackForm();
         // event.preventDefault();
     }
     render() {
+        
         return(
             <div className="container">
                 <div className="row">
