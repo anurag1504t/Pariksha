@@ -17,7 +17,11 @@ var examRouter = require('./routes/examRouter');
 
 // Establishing Database Connection
 const url = config.mongoUrl;
-const connect = mongoose.connect(url);
+const connect = mongoose.connect(url, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true, 
+    useCreateIndex: true 
+});
 
 connect.then((db) => {
     console.log("Connected correctly to server");
