@@ -72,7 +72,7 @@ class Main extends Component {
                                 <Route path='/home' component={HomePage} />
                                 <Route exact path='/aboutus' component={About} />
                                 <Route exact path='/exams' component={Exam} />
-                                <Route exact path="/contactus" component={() => <Contact />} />
+                                <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} />} />
                                 <Redirect to="/home" />
                             </Switch>
                         </CSSTransition>

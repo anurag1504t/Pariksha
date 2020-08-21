@@ -49,6 +49,9 @@ class Header extends Component {
                     <div className="container">
                         <div className="row row-header">
                             <div className="col-12 col-sm-6">
+                                <NavbarBrand className="mr-auto" href="/">
+                                    <img src="Pariksha_logo.jpeg" height="100" width="100" alt="Ristorante Con Fusion" /> 
+                                </NavbarBrand>
                                 <h1>परीक्षा</h1>
                             </div>
                         </div>
@@ -57,11 +60,7 @@ class Header extends Component {
                 <Navbar dark expand="md">
                     <div className="container">
                         <NavbarToggler onClick={this.toggleNav} />
-                        <NavbarBrand className="mr-auto" href="/">Pariksha</NavbarBrand>
-                        {/* <NavbarBrand className="mr-auto" href="/">
-                            <img src="assets/images/logo.png" height="30" width="41"
-                                alt="Ristorante Con Fusion" /> */}
-                        {/* </NavbarBrand> */}
+                        {/* <NavbarBrand className="mr-auto" href="/">Pariksha</NavbarBrand> */}
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                             <Nav navbar>
                                 <NavItem>
