@@ -8,6 +8,7 @@ var session = require('express-session');
 var passport = require('passport');
 var authenticate = require('./authenticate');
 var config = require('./config');
+var cors = require('cors');
 
 // Mounting Express Routes
 var indexRouter = require('./routes/index');
@@ -34,6 +35,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
