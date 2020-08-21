@@ -15,6 +15,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/uploadRouter');
 var examRouter = require('./routes/examRouter');
+var commentRouter = require('./routes/commentRouter');
 
 // Establishing Database Connection
 const url = config.mongoUrl;
@@ -46,6 +47,7 @@ app.set('view engine', 'pug');
 
 app.use('/imageUpload',uploadRouter);
 app.use('/exams', examRouter);
+app.use('/comments',commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
