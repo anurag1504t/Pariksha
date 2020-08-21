@@ -24,6 +24,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "serialize-javascript": "^4.0.0",
     "simple-flexbox": "^2.3.1",
     "websocket-extensions": "^0.1.4"
   },
