@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const Exams = require('../models/exam');
+var authenticate = require('../authenticate');
 
 const examRouter = express.Router();
 examRouter.use(bodyParser.json());

@@ -68,6 +68,10 @@ const examSchema = new Schema({
     description: {
         type: String,
         default: ''
+    },    
+    faculty: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     start:{
         type: Date, 

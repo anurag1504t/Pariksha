@@ -4,14 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
-var session = require('express-session');
 var passport = require('passport');
-var authenticate = require('./authenticate');
 var config = require('./config');
 var cors = require('cors');
+var compression = require('compression');
 
 // Mounting Express Routes
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/uploadRouter');
 var examRouter = require('./routes/examRouter');
@@ -26,28 +24,30 @@ const connect = mongoose.connect(url, {
 });
 
 connect.then((db) => {
-    console.log("Connected correctly to server");
+    console.log("Connected correctly to Database server");
 }, (err) => { console.log(err); });
 
 var app = express();
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "client", "build")));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(cors());
+app.use(compression());
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'pug');
-
 app.use('/imageUpload',uploadRouter);
 app.use('/exams', examRouter);
 app.use('/comments',commentRouter);
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

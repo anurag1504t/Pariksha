@@ -18,13 +18,7 @@ var User = new Schema({
     faculty: {
         type: Boolean,
         default: false
-    },
-    course: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Course'
-        }
-    ]
+    }
 });
 
 User.plugin(passportLocalMongoose);
