@@ -5,7 +5,7 @@ import Contact from './ContactComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Exam from './ExamComponent'
-// import ExamDetail from './ExamdetailComponent';
+import ExamDetail from './ExamDetailComponent';
 import { actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { postComment, fetchExams, fetchComments, postFeedback, loginUser, logoutUser } from '../redux/ActionCreators';
@@ -47,16 +47,28 @@ class Main extends Component {
             );            
         }
 
-        // const PrivateRoute = ({ component: Component, ...rest }) => (
-        //     <Route {...rest} render={(props) => (
-        //         this.props.auth.isAuthenticated
-        //             ? <Component {...props} />
-        //             : <Redirect to={{
-        //                     pathname: '/home',
-        //                     state: { from: props.location }
-        //             }} />
-        //     )}   />
-        // );
+        const ExamWithId = ({match}) => {
+            return(
+                <ExamDetail exam={this.props.exams.exams.filter((exam) => exam._id === match.params.examId)[0]}
+                    isLoading={this.props.exams.isLoading}
+                    errMess={this.props.exams.errMess}
+                    comments={this.props.comments.comments.filter((comment) => comment.exam === match.params.examId)}
+                    commentsErrMess={this.props.comments.errMess}
+                    postComment={this.props.postComment}
+                />
+            );
+        }
+
+        const PrivateRoute = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+                this.props.auth.isAuthenticated
+                    ? <Component {...props} />
+                    : <Redirect to={{
+                            pathname: '/home',
+                            state: { from: props.location }
+                    }} />
+            )}   />
+        );
 
         return (
             <div>
@@ -72,6 +84,7 @@ class Main extends Component {
                                 <Route path='/home' component={HomePage} />
                                 <Route exact path='/aboutus' component={About} />
                                 <Route exact path='/exams' component={() => <Exam exams={this.props.exams} />} />
+                                <Route exact path='/exams/:examId' component={ExamWithId} />
                                 <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} />} />
                                 <Redirect to="/home" />
                             </Switch>

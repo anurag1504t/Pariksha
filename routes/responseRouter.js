@@ -2,51 +2,51 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Results = require('../models/result');
+const Responses = require('../models/response');
 var authenticate = require('../authenticate');
 
-const resultRouter = express.Router();
-resultRouter.use(bodyParser.json());
+const responseRouter = express.Router();
+responseRouter.use(bodyParser.json());
 
-// Methods for http://localhost:3000/results/ API end point
-resultRouter.route('/')
+// Methods for http://localhost:3000/response/ API end point
+responseRouter.route('/')
 .get((req,res,next) => {
-    Results.find(req.query)
-    .then((results) => {
+    Responses.find(req.query)
+    .then((responses) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(results);
+        res.json(responses);
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 .post(authenticate.verifyUser, (req, res, next) => {
     if (req.body != null) {
         req.body.student = req.user._id;
-        Results.create(req.body)
-        .then((result) => {
-            Results.findById(result._id)
+        Responses.create(req.body)
+        .then((response) => {
+            Responses.findById(response._id)
             .populate('student')
             .populate('exam')
-            .then((result) => {
+            .then((response) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json(result);
+                res.json(response);
             })
         }, (err) => next(err))
         .catch((err) => next(err));
     }
     else {
-        err = new Error('Result information not found in request body');
+        err = new Error('Response information not found in request body');
         err.status = 404;
         return next(err);
     }
 })
 .put((req, res, next) => {
     res.statusCode = 403;
-    res.end('PUT operation not supported on /results');
+    res.end('PUT operation not supported on /responses');
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
-    Results.remove({})
+    Response.remove({})
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -55,44 +55,44 @@ resultRouter.route('/')
     .catch((err) => next(err));    
 });
 
-// Methods for http://localhost:3000/results/:resultId API end point
-resultRouter.route('/:resultId')
+// Methods for http://localhost:3000/response/:responseId API end point
+responseRouter.route('/:responseId')
 .get((req,res,next) => {
-    Results.findById(req.params.resultId)
-    .then((result) => {
-        Results.findById(result._id)
+    Response.findById(req.params.responseId)
+    .then((response) => {
+        Response.findById(response._id)
         .populate('student')
         .populate('exam')
-        .then((result) => {
+        .then((response) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.json(result);
+            res.json(response);
         })
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 .post((req, res, next) => {
     res.statusCode = 403;
-    res.end(`POST operation not supported on /results/${req.params.resultId}`);
+    res.end(`POST operation not supported on /responses/${req.params.responseId}`);
 })
 .put(authenticate.verifyUser, (req, res, next) => {
-    Results.findByIdAndUpdate(req.params.resultId, {
+    Response.findByIdAndUpdate(req.params.responseId, {
         $set: req.body
     }, { new: true })
-    .then((result) => {
-        Results.findById(result._id)
+    .then((response) => {
+        Response.findById(response._id)
         .populate('student')
         .populate('exam')
-        .then((result) => {
+        .then((response) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.json(result);
+            res.json(response);
         })
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
-    Results.findByIdAndRemove(req.params.resultId)
+    Response.findByIdAndRemove(req.params.responseId)
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -101,4 +101,4 @@ resultRouter.route('/:resultId')
     .catch((err) => next(err));
 });
 
-module.exports = resultRouter;
+module.exports = responseRouter;

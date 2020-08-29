@@ -25,6 +25,10 @@ var MCQ = new Schema({
     solution: {
         type: String,
         required: true
+    },
+    marks: {
+        type: Number,
+        default: 1
     }
 }, {
     timestamps: true
@@ -38,6 +42,10 @@ var Numerical = new Schema({
     solution: {
         type: Number,
         required: true
+    },
+    marks: {
+        type: Number,
+        default: 1
     }
 }, {
     timestamps: true
@@ -47,6 +55,10 @@ var Subjective = new Schema({
     question: {
         type: String,
         required: true
+    },
+    marks: {
+        type: Number,
+        default: 1
     },
     solution: {
         type: String,
@@ -72,14 +84,6 @@ const examSchema = new Schema({
     faculty: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    },
-    start:{
-        type: Date, 
-        default: Date.now
-    },
-    end:{
-        type: Date, 
-        default: Date.now
     },
     multiple: [MCQ],
     numerical: [Numerical],

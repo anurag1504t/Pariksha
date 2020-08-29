@@ -14,7 +14,7 @@ var resultSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Exam'
     },
-    user: {
+    student: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }

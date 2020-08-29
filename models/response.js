@@ -51,7 +51,7 @@ const responseScema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Exam'
     },
-    faculty: {
+    student: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },

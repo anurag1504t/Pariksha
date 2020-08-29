@@ -5,15 +5,14 @@ import { Loading } from './LoadingComponent';
 
 const RenderExamItem = ({ exam }) => {    
     
-    console.log(exam);
+    console.log(exam.faculty);
 
     return (
         <div>
             <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
                 <CardTitle>{exam.title}</CardTitle>
-                <CardText>Course Code: {exam.courseCode} <br></br> {exam.description}</CardText>
-                <CardText>Start Time: {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(exam.start)))}</CardText>
-                <CardText>End Time: {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(exam.end)))}</CardText>
+                <CardText>Course Code: {exam.courseCode}</CardText>
+                <CardText>Batch: B.Tech CSE</CardText>
                 <Link to={`/exams/${exam._id}`} >
                     <Button>Start</Button>
                 </Link>                
@@ -27,7 +26,7 @@ const Exam = (props) => {
 
     const Exams = props.exams.exams.map((exam) => {
         return (
-            <div key={exam._id} className="col-12 col-md-4 m-0" >
+            <div key={exam._id} className="col-12 col-md-4 mb-3" >
                 <RenderExamItem exam={exam} />
             </div>
         );

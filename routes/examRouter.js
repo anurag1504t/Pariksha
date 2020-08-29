@@ -20,21 +20,32 @@ examRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
-    Exams.create(req.body)
-    .then((exam) => {
-        console.log('Exam Created ', exam);
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(exam);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+.post(authenticate.verifyUser, (req, res, next) => {
+    if (req.body != null) {
+        req.body.faculty = req.user._id;
+        Exams.create(req.body)
+        .then((exam) => {
+            Exams.findById(exam._id)
+            .populate('faculty')
+            .then((exam) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(exam);
+            })
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
+    else {
+        err = new Error('Exam information not found in request body');
+        err.status = 404;
+        return next(err);
+    }
 })
 .put((req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /exams');
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Exams.remove({})
     .then((resp) => {
         res.statusCode = 200;
@@ -49,9 +60,13 @@ examRouter.route('/:examId')
 .get((req,res,next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(exam);
+        Exams.findById(exam._id)
+        .populate('faculty')
+        .then((exam) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(exam);
+        })
     }, (err) => next(err))
     .catch((err) => next(err));
 })
@@ -59,19 +74,23 @@ examRouter.route('/:examId')
     res.statusCode = 403;
     res.end(`POST operation not supported on /exams/${req.params.examId}`);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, (req, res, next) => {
     Exams.findByIdAndUpdate(req.params.examId, {
         $set: req.body
     }, { new: true })
     .then((exam) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(exam);
+        Exams.findById(exam._id)
+        .populate('faculty')
+        .then((exam) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(exam);
+        })
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req, res, next) => {
-    Exams.findByIdAndRemove(req.params.exam)
+.delete(authenticate.verifyUser, (req, res, next) => {
+    Exams.findByIdAndRemove(req.params.examId)
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -98,16 +117,20 @@ examRouter.route('/:examId/multiple')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null) {
             exam.multiple.push(req.body);
             exam.save()
             .then((exam) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(exam);                
+                Exams.findById(exam._id)
+                .populate('faculty')
+                .then((exam) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(exam);
+                })                
             }, (err) => next(err));
         }
         else {
@@ -122,7 +145,7 @@ examRouter.route('/:examId/multiple')
     res.statusCode = 403;
     res.end(`PUT operation not supported on /exams/${req.params.examId}/multiple`);
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null) {
@@ -131,9 +154,13 @@ examRouter.route('/:examId/multiple')
             }
             exam.save()
             .then((exam) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(exam);                
+                Exams.findById(exam._id)
+                .populate('faculty')
+                .then((exam) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(exam);
+                })                
             }, (err) => next(err));
         }
         else {
@@ -172,7 +199,7 @@ examRouter.route('/:examId/multiple/:multipleId')
     res.statusCode = 403;
     res.end(`POST operation not supported on /exams/${req.params.examId}/multiple/${req.params.multipleId}`);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null && exam.multiple.id(req.params.multipleId) != null) {
@@ -196,9 +223,13 @@ examRouter.route('/:examId/multiple/:multipleId')
             }
             exam.save()
             .then((exam) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(exam);                
+                Exams.findById(exam._id)
+                .populate('faculty')
+                .then((exam) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(exam);
+                })               
             }, (err) => next(err));
         }
         else if (exam == null) {
@@ -214,7 +245,7 @@ examRouter.route('/:examId/multiple/:multipleId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null && exam.multiple.id(req.params.multipleId) != null) {
@@ -258,16 +289,20 @@ examRouter.route('/:examId/numerical')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null) {
             exam.numerical.push(req.body);
             exam.save()
             .then((exam) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(exam);                
+                Exams.findById(exam._id)
+                .populate('faculty')
+                .then((exam) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(exam);
+                })               
             }, (err) => next(err));
         }
         else {
@@ -282,7 +317,7 @@ examRouter.route('/:examId/numerical')
     res.statusCode = 403;
     res.end(`PUT operation not supported on /exams/${req.params.examId}/numerical`);
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null) {
@@ -332,7 +367,7 @@ examRouter.route('/:examId/numerical/:numericalId')
     res.statusCode = 403;
     res.end(`POST operation not supported on /exams/${req.params.examId}/numerical/${req.params.numericalId}`);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null && exam.numerical.id(req.params.numericalId) != null) {
@@ -344,9 +379,13 @@ examRouter.route('/:examId/numerical/:numericalId')
             }
             exam.save()
             .then((exam) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(exam);                
+                Exams.findById(exam._id)
+                .populate('faculty')
+                .then((exam) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(exam);
+                })               
             }, (err) => next(err));
         }
         else if (exam == null) {
@@ -362,7 +401,7 @@ examRouter.route('/:examId/numerical/:numericalId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null && exam.numerical.id(req.params.numericalId) != null) {
@@ -406,16 +445,20 @@ examRouter.route('/:examId/subjective')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null) {
             exam.subjective.push(req.body);
             exam.save()
             .then((exam) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(exam);                
+                Exams.findById(exam._id)
+                .populate('faculty')
+                .then((exam) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(exam);
+                })               
             }, (err) => next(err));
         }
         else {
@@ -430,7 +473,7 @@ examRouter.route('/:examId/subjective')
     res.statusCode = 403;
     res.end(`PUT operation not supported on /exams/${req.params.examId}/subjective`);
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null) {
@@ -480,7 +523,7 @@ examRouter.route('/:examId/subjective/:subjectiveId')
     res.statusCode = 403;
     res.end(`POST operation not supported on /exams/${req.params.examId}/subjective/${req.params.subjectiveId}`);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null && exam.subjective.id(req.params.subjectiveId) != null) {
@@ -492,9 +535,13 @@ examRouter.route('/:examId/subjective/:subjectiveId')
             }
             exam.save()
             .then((exam) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(exam);                
+                Exams.findById(exam._id)
+                .populate('faculty')
+                .then((exam) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(exam);
+                })                
             }, (err) => next(err));
         }
         else if (exam == null) {
@@ -510,7 +557,7 @@ examRouter.route('/:examId/subjective/:subjectiveId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, (req, res, next) => {
     Exams.findById(req.params.examId)
     .then((exam) => {
         if (exam != null && exam.subjective.id(req.params.subjectiveId) != null) {
