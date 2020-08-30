@@ -1,4 +1,5 @@
 import React from 'react';
+import Pariksha_logo from '../shared/Pariksha_logo.jpeg';
 import { Link } from 'react-router-dom';
 import { Card, Button, CardTitle, CardText, Media } from 'reactstrap';
 import { Loading } from './LoadingComponent';
@@ -7,7 +8,7 @@ function RenderSelf() {
     return(
         <Media>
             <Media left middle>
-                <Media object src="Pariksha_logo.jpeg" height="100" width="100" alt="Anurag Tiwari" />
+                <Media object src={Pariksha_logo} height="100" width="100" alt="Anurag Tiwari" />
             </Media>
             <Media body className="ml-5">
                 <Media heading>Anurag Tiwari</Media>
@@ -71,8 +72,6 @@ const Home = (props) => {
             <div className="container">
                 <div className="container">
                     <h1>Hi, Welcome to Pariksha ...</h1>
-                    <br></br>
-                    <br></br>
                     <br></br>
                     <br></br>
                 </div>

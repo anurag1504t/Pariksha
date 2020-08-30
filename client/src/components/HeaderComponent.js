@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Button, Modal, ModalHeader, ModalBody,
     Form, FormGroup, Input, Label } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
+import Pariksha_logo from '../shared/Pariksha_logo.jpeg';
 
 class Header extends Component {
     constructor(props) {
@@ -50,7 +51,7 @@ class Header extends Component {
                         <div className="row row-header">
                             <div className="col-12 col-sm-6">
                                 <NavbarBrand className="mr-auto" href="/">
-                                    <img src="Pariksha_logo.jpeg" height="100" width="100" alt="Pariksha" /> 
+                                    <img src={Pariksha_logo.jpeg} height="100" width="100" alt="Pariksha" /> 
                                 </NavbarBrand>
                                 <h1>परीक्षा</h1>
                             </div>
