@@ -9,7 +9,7 @@ import ExamDetail from './ExamDetailComponent';
 import ExamEditAndResponse from './ExamEditAndResponseComponent';
 import { actions } from 'react-redux-form';
 import { connect } from 'react-redux';
-import { postComment, fetchExams, fetchComments, postFeedback, loginUser, logoutUser, fetchResults, fetchResponses } from '../redux/ActionCreators';
+import { postComment, fetchExams, fetchComments, postFeedback, loginUser, logoutUser, fetchResults, fetchResponses, postMultiple, postNumerical,postSubjective } from '../redux/ActionCreators';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -24,7 +24,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    postComment: (examId, author, comment) => dispatch(postComment(examId, author, comment)),
+    postComment: (examId, comment) => dispatch(postComment(examId, comment)),
     fetchExams: () => { dispatch(fetchExams())},
     fetchResults: () => { dispatch(fetchResults())},
     fetchResponses: () => { dispatch(fetchResponses())},
@@ -34,6 +34,9 @@ const mapDispatchToProps = dispatch => ({
     resetSubjectiveForm: () => { dispatch(actions.reset('subjective'))},
     fetchComments: () => dispatch(fetchComments()),
     postFeedback: (feedback) => dispatch(postFeedback(feedback)),
+    postMultiple: (examId, userResponse) => dispatch(postMultiple(examId, userResponse)),
+    postNumerical: (examId, userResponse) => dispatch(postNumerical(examId, userResponse)),
+    postSubjective: (examId, userResponse) => dispatch(postSubjective(examId, userResponse)),
     loginUser: (creds) => dispatch(loginUser(creds)),
     logoutUser: () => dispatch(logoutUser())
 });
@@ -84,6 +87,9 @@ class Main extends Component {
                     resetMultipleForm={this.props.resetMultipleForm}
                     resetNumericalForm={this.props.resetNumericalForm}
                     resetSubjectiveForm={this.props.resetSubjectiveForm}
+                    postMultiple={this.props.postMultiple}
+                    postNumerical={this.props.postNumerical}
+                    postSubjective={this.props.postSubjective}
                 />
             );
         }

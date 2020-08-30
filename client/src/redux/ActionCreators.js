@@ -6,11 +6,10 @@ export const addComment = (comment) => ({
     payload: comment
 });
 
-export const postComment = (examId, author, comment) => (dispatch) => {
+export const postComment = (examId, comment) => (dispatch) => {
 
     const newComment = {
         examId: examId,
-        author: author,
         comment: comment
     };
     newComment.date = new Date().toISOString();
@@ -290,3 +289,93 @@ export const addResponses = (responses) => ({
     type: ActionTypes.ADD_RESPONSE,
     payload: responses
 });
+
+export const postMultiple = (examId, userResponse) => (dispatch) => {
+        
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    
+    return fetch(`${baseUrl + examId}/multiple`, {
+        method: "POST",
+        body: JSON.stringify(userResponse),
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+    },
+    error => {
+        throw error;
+    })
+    .then(response => response.json())
+    .then(response => { console.log('Multiple Choice Question', response); alert('Multiple Choice Question Added\n'+JSON.stringify(response)); })
+    .catch(error =>  { console.log('Multiple Choice Question', error.message); alert('Failed to add Multiple Choice Question\nError: '+error.message); });
+};
+
+export const postNumerical = (examId, userResponse) => (dispatch) => {
+        
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    
+    return fetch(`${baseUrl + examId}/numerical`, {
+        method: "POST",
+        body: JSON.stringify(userResponse),
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+    },
+    error => {
+        throw error;
+    })
+    .then(response => response.json())
+    .then(response => { console.log('Numerical Question', response); alert('Numerical Question Added\n'+JSON.stringify(response)); })
+    .catch(error =>  { console.log('Numerical Question', error.message); alert('Failed to add Numerical Question\nError: '+error.message); });
+};
+
+export const postSubjective = (examId, userResponse) => (dispatch) => {
+        
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    
+    return fetch(`${baseUrl + examId}/subjective`, {
+        method: "POST",
+        body: JSON.stringify(userResponse),
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+    },
+    error => {
+        throw error;
+    })
+    .then(response => response.json())
+    .then(response => { console.log('Subjective Question', response); alert('Subjective Question Added\n'+JSON.stringify(response)); })
+    .catch(error =>  { console.log('Subjective Question', error.message); alert('Failed to add Subjective Question\nError: '+error.message); });
+};
