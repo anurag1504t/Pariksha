@@ -14,6 +14,8 @@ var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/uploadRouter');
 var examRouter = require('./routes/examRouter');
 var commentRouter = require('./routes/commentRouter');
+var resultRouter = require('./routes/resultRouter');
+var responseRouter = require('./routes/responseRouter');
 
 // Establishing Database Connection
 const url = config.mongoUrl;
@@ -44,6 +46,8 @@ app.use('/users', usersRouter);
 app.use('/imageUpload',uploadRouter);
 app.use('/exams', examRouter);
 app.use('/comments',commentRouter);
+app.use('/results', resultRouter);
+app.use('/response',responseRouter);
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));

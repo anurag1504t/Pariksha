@@ -6,7 +6,7 @@ import { Button, Label, Row, Col } from 'reactstrap';
 
 const isNumber = (val) => !isNaN(Number(val));
 
-class ExamDetail extends Component {
+class ExamEditAndResponse extends Component {
 
     constructor(props) {
         super(props);
@@ -42,6 +42,7 @@ class ExamDetail extends Component {
     }
 
     render() {
+        console.log(this.props);
         if (this.props.isLoading) {
             return(
                 <div className="container">
@@ -161,4 +162,4 @@ class ExamDetail extends Component {
     }
 }
 
-export default ExamDetail;
+export default ExamEditAndResponse;

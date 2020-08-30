@@ -7,3 +7,24 @@ export const InitialFeedback = {
     contactType: 'Tel.',
     message: ''
 };
+
+export const InitialMultiple = {
+    question: '',
+    optionA: '',
+    optionB: '',
+    optionC: '',
+    optionD: '',
+    solution: '',
+    marks: ''
+};
+
+export const InitialNumerical = {
+    question: '',
+    solution: '',
+    marks: ''
+};
+
+export const InitialSubjective = {
+    question: '',
+    solution: ''
+};

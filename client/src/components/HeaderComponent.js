@@ -50,7 +50,7 @@ class Header extends Component {
                         <div className="row row-header">
                             <div className="col-12 col-sm-6">
                                 <NavbarBrand className="mr-auto" href="/">
-                                    <img src="Pariksha_logo.jpeg" height="100" width="100" alt="Ristorante Con Fusion" /> 
+                                    <img src="Pariksha_logo.jpeg" height="100" width="100" alt="Pariksha" /> 
                                 </NavbarBrand>
                                 <h1>परीक्षा</h1>
                             </div>
@@ -96,7 +96,7 @@ class Header extends Component {
                                         </Button>
                                         :
                                         <div>
-                                        <div className="navbar-text mr-3">{this.props.auth.user.username}</div>
+                                        <div className="navbar-text mr-3">Hi, {this.props.auth.user.username}</div>
                                         <Button outline onClick={this.handleLogout}>
                                             <span className="fa fa-sign-out fa-lg"></span> Logout
                                             {this.props.auth.isFetching ?

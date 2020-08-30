@@ -216,3 +216,77 @@ export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('creds');
     dispatch(receiveLogout())
 }
+
+export const fetchResults = () => (dispatch) => {
+
+    dispatch(resultsLoading(true));
+
+    return fetch(baseUrl + 'results')
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+      })
+    .then(response => response.json())
+    .then(results => dispatch(addResults(results)))
+    .catch(error => dispatch(resultsFailed(error.message)));
+}
+
+export const resultsLoading = () => ({
+    type: ActionTypes.RESULT_LOADING
+});
+
+export const resultsFailed = (errmess) => ({
+    type: ActionTypes.RESULT_FAILED,
+    payload: errmess
+});
+
+export const addResults = (results) => ({
+    type: ActionTypes.ADD_RESULT,
+    payload: results
+});
+
+export const fetchResponses = () => (dispatch) => {
+
+    dispatch(responsesLoading(true));
+
+    return fetch(baseUrl + 'response')
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+      })
+    .then(response => response.json())
+    .then(responses => dispatch(addResponses(responses)))
+    .catch(error => dispatch(responsesFailed(error.message)));
+}
+
+export const responsesLoading = () => ({
+    type: ActionTypes.RESPONSE_LOADING
+});
+
+export const responsesFailed = (errmess) => ({
+    type: ActionTypes.RESPONSE_FAILED,
+    payload: errmess
+});
+
+export const addResponses = (responses) => ({
+    type: ActionTypes.ADD_RESPONSE,
+    payload: responses
+});

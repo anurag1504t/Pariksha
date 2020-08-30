@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Button, CardTitle, CardText, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Loading } from './LoadingComponent';
 
-const RenderExamItem = ({ exam }) => {    
-    
-    console.log(exam.faculty);
-
+const RenderExamItem = ({ exam }) => {
     return (
         <div>
             <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
