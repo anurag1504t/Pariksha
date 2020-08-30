@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Control, LocalForm } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText, Row, Col } from 'reactstrap';
 
 class ExamDetail extends Component {
 
@@ -11,6 +11,8 @@ class ExamDetail extends Component {
         super(props);
 
         this.handleMultiple = this.handleMultiple.bind(this);
+        this.handleNumerical = this.handleNumerical.bind(this);
+        this.handleSubjective = this.handleSubjective.bind(this);
         
         this.state = {
           score: 0,
@@ -19,6 +21,16 @@ class ExamDetail extends Component {
     }
 
     handleMultiple(values) {
+        alert("Current State is: " + JSON.stringify(values));
+        // return false;
+    }
+
+    handleNumerical(values) {
+        alert("Current State is: " + JSON.stringify(values));
+        // return false;
+    }
+
+    handleSubjective(values) {
         alert("Current State is: " + JSON.stringify(values));
         // return false;
     }
@@ -46,31 +58,52 @@ class ExamDetail extends Component {
             
             const multiple = this.props.exam.multiple.map((Question, index) => {
                 return (
-                    <FormGroup tag="fieldset">                     
-                        <legend>Question {index + 1}: {Question.question}</legend>
-                        <FormGroup check>
-                            <Label check>
-                                <Input type="radio" name={Question._id} value={Question.optionA}/>{Question.optionA}
-                            </Label>
-                        </FormGroup>
-                        <FormGroup check>
-                            <Label check>
-                                <Input type="radio" name={Question._id} value={Question.optionB}/>{Question.optionB}
-                            </Label>
-                        </FormGroup>
-                        <FormGroup check >
-                            <Label check>
-                                <Input type="radio" name={Question._id} value={Question.optionC}/>{Question.optionC}
-                            </Label>
-                        </FormGroup>
-                        <FormGroup check >
-                            <Label check>
-                                <Input type="radio" name={Question._id} value={Question.optionD}/>{Question.optionD}
-                            </Label>
-                        </FormGroup>
-                    </FormGroup>
+                    <LocalForm onSubmit={(values) => this.handleMultiple(values)}>
+                        <Row className="form-group">
+                            <Col>
+                                <Label htmlFor="multiple">Question {index + 1}: {Question.question}</Label>
+                                <Control.select model=".answer" key= {Question._id} id="multiple" className="form-control">
+                                    <option>Select One</option>
+                                    <option>{Question.optionA}</option>
+                                    <option>{Question.optionB}</option>
+                                    <option>{Question.optionC}</option>
+                                    <option>{Question.optionD}</option>
+                                </Control.select>
+                            </Col>
+                        </Row>
+                        <Button type="submit">Save Answer</Button>
+                    </LocalForm>
                 );
             });
+
+            const numerical = this.props.exam.numerical.map((Question, index) => {
+                return (
+                    <LocalForm onSubmit={(values) => this.handleNumerical(values)}>
+                        <Row className="form-group">
+                            <Col>
+                                <Label htmlFor="answer">Question {index + 1}: {Question.question}</Label>
+                                <Control.text model=".answer" id="numerical" className="form-control" />
+                            </Col>
+                        </Row>
+                        <Button type="submit" >Save Answer</Button>
+                    </LocalForm>
+                );
+            });
+
+            const subjective = this.props.exam.subjective.map((Question, index) => {
+                return (
+                    <LocalForm onSubmit={(values) => this.handleSubjective(values)}>
+                        <Row className="form-group">
+                            <Col>
+                                <Label htmlFor="answer">Question {index + 1}: {Question.question}</Label>
+                                <Control.textarea model=".answer" id="subjective" rows="6" className="form-control" />
+                            </Col>
+                        </Row>
+                        <Button type="submit" >Save Answer</Button>
+                    </LocalForm>
+                );
+            });
+
             return (
                 <div className="container">
                     <div className="row">
@@ -80,17 +113,35 @@ class ExamDetail extends Component {
                             <p>{this.props.exam.description}</p>
                         </div>
                     </div>
-                    <div className="row">
-                        <LocalForm onSubmit={(values) => this.handleMultiple(values)}>
+                    <div className="row">  
+                        <div className="col-12">
+                            <h3>Multiple Choice Questions Section</h3>
+                            <hr />
+                        </div>
+                        <div className="col-12">
                             {multiple}
-                            <Button type="submit">Submit</Button>
-                        </LocalForm>
+                        </div> 
+                        <br></br><br></br>                       
                     </div>
-                    <div className="row">
-                        <RenderNumerical numerical = {this.props.exam.numerical}  />
+                    <div className="row">  
+                        <div className="col-12">
+                            <h3>Numerical Questions Section</h3>
+                            <hr />
+                        </div>
+                        <div className="col-12">
+                            {numerical}
+                        </div>
+                        <br></br><br></br>    
                     </div>
-                    <div className="row">
-                        <RenderSubjective subjective = {this.props.exam.subjective}  />
+                    <div className="row">  
+                        <div className="col-12">
+                            <h3>Subjective Questions Section</h3>
+                            <hr />
+                        </div>
+                        <div className="col-12">
+                            {subjective}
+                        </div> 
+                        <br></br><br></br>                            
                     </div>
                 </div>
             );
@@ -101,38 +152,6 @@ class ExamDetail extends Component {
             );
         }
 
-    }
-}
-
-const RenderNumerical = ({numerical}) => {
-    if(numerical != null) {
-        return(
-            <div>
-                <h3>Numerical Questions Section</h3>
-                <hr />
-            </div>
-        );
-    }
-    else {
-        return(
-            <div></div>
-        );
-    }
-}
-
-const RenderSubjective = ({subjective}) => {
-    if(subjective != null) {
-        return(
-            <div>
-                <h3>Subjective Questions Section</h3>
-                <hr />
-            </div>
-        );
-    }
-    else {
-        return(
-            <div></div>
-        );
     }
 }
 

@@ -59,10 +59,6 @@ var Subjective = new Schema({
     marks: {
         type: Number,
         default: 1
-    },
-    solution: {
-        type: String,
-        required: true
     }
 }, {
     timestamps: true
