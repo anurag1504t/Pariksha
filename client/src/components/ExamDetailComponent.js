@@ -18,9 +18,9 @@ class ExamDetail extends Component {
         };
     }
 
-    handleMultiple(event) {
-        alert("Current State is: " + JSON.stringify(event));
-        event.preventDefault();
+    handleMultiple(values) {
+        alert("Current State is: " + JSON.stringify(values));
+        // return false;
     }
 
     render() {
@@ -50,22 +50,22 @@ class ExamDetail extends Component {
                         <legend>Question {index + 1}: {Question.question}</legend>
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name={Question._id} />{Question.optionA}
+                                <Input type="radio" name={Question._id} value={Question.optionA}/>{Question.optionA}
                             </Label>
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name={Question._id} />{Question.optionB}
+                                <Input type="radio" name={Question._id} value={Question.optionB}/>{Question.optionB}
                             </Label>
                         </FormGroup>
                         <FormGroup check >
                             <Label check>
-                                <Input type="radio" name={Question._id}  />{Question.optionC}
+                                <Input type="radio" name={Question._id} value={Question.optionC}/>{Question.optionC}
                             </Label>
                         </FormGroup>
                         <FormGroup check >
                             <Label check>
-                                <Input type="radio" name={Question._id}  />{Question.optionD}
+                                <Input type="radio" name={Question._id} value={Question.optionD}/>{Question.optionD}
                             </Label>
                         </FormGroup>
                     </FormGroup>
@@ -81,10 +81,10 @@ class ExamDetail extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <Form onSubmit={this.handleMultiple}>
+                        <LocalForm onSubmit={(values) => this.handleMultiple(values)}>
                             {multiple}
                             <Button type="submit">Submit</Button>
-                        </Form>
+                        </LocalForm>
                     </div>
                     <div className="row">
                         <RenderNumerical numerical = {this.props.exam.numerical}  />
