@@ -64,49 +64,33 @@ class ExamEditAndResponse extends Component {
             
             const multiple = this.props.exam.multiple.map((Question, index) => {
                 return (
-                    <LocalForm key={Question._id} onSubmit={(values) => this.handleMultiple(values, Question.question, Question.solution)}>
-                        <Row className="form-group">
-                            <Col>
-                                <Label htmlFor="multiple">Question {index + 1}: {Question.question}</Label>
-                                <Control.select model=".response" key= {Question._id} id="multiple" className="form-control">
-                                    <option>Select One</option>
-                                    <option>{Question.optionA}</option>
-                                    <option>{Question.optionB}</option>
-                                    <option>{Question.optionC}</option>
-                                    <option>{Question.optionD}</option>
-                                </Control.select>
-                            </Col>
-                        </Row>
-                        <Button type="submit">Save Answer</Button>
-                    </LocalForm>
+                    <div className="MCQ" key={Question._id}>
+                        <h6>Question {index + 1}: {Question.question}</h6>
+                        <ol>
+                            <li>{Question.optionA}</li>
+                            <li>{Question.optionB}</li>
+                            <li>{Question.optionC}</li>
+                            <li>{Question.optionD}</li>
+                        </ol>
+                        <p>Correct Answer: {Question.solution}</p>
+                    </div>
                 );
             });
 
             const numerical = this.props.exam.numerical.map((Question, index) => {
                 return (
-                    <LocalForm key={Question._id} onSubmit={(values) => this.handleNumerical(values, Question.question, Question.solution)}>
-                        <Row className="form-group">
-                            <Col>
-                                <Label htmlFor="answer">Question {index + 1}: {Question.question}</Label>
-                                <Control.text model=".response" id="numerical" className="form-control" />
-                            </Col>
-                        </Row>
-                        <Button type="submit" >Save Answer</Button>
-                    </LocalForm>
+                    <div className="Numerical" key={Question._id}>
+                        <h6>Question {index + 1}: {Question.question}</h6>                        
+                        <p>Correct Answer: {Question.solution}</p>
+                    </div>
                 );
             });
 
             const subjective = this.props.exam.subjective.map((Question, index) => {
                 return (
-                    <LocalForm key={Question._id} onSubmit={(values) => this.handleSubjective(values, Question.question, Question.solution)}>
-                        <Row className="form-group">
-                            <Col>
-                                <Label htmlFor="answer">Question {index + 1}: {Question.question}</Label>
-                                <Control.textarea model=".response" id="subjective" rows="6" className="form-control" />
-                            </Col>
-                        </Row>
-                        <Button type="submit" >Save Answer</Button>
-                    </LocalForm>
+                    <div className="Numerical" key={Question._id}>
+                        <h6>Question {index + 1}: {Question.question}</h6>
+                    </div>
                 );
             });
 
@@ -114,41 +98,50 @@ class ExamEditAndResponse extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            <h1>{this.props.exam.title}</h1>
+                            <h1>{this.props.exam.title} Question Paper Edit</h1>
                             <hr />
                             <p>{this.props.exam.description}</p>
                         </div>
                     </div>
-                    <div className="row">  
-                        <div className="col-12">
-                            <h3>Multiple Choice Questions Section</h3>
-                            <hr />
+                    <div className="row">
+                        <div className="col-5">
+
                         </div>
-                        <div className="col-12">
-                            {multiple}
-                        </div> 
-                        <br></br><br></br>                       
+                        <div className="col-7">
+                            <div className="row">  
+                                <div className="col-12">
+                                    <h3>Multiple Choice Questions Section</h3>
+                                    <hr />
+                                </div>
+                                <div className="col-12">
+                                    {multiple}
+                                </div> 
+                                <br></br><br></br>                       
+                            </div>
+                            <div className="row">  
+                                <div className="col-12">
+                                    <h3>Numerical Questions Section</h3>
+                                    <hr />
+                                </div>
+                                <div className="col-12">
+                                    {numerical}
+                                </div>
+                                <br></br><br></br>    
+                            </div>
+                            <div className="row">  
+                                <div className="col-12">
+                                    <h3>Subjective Questions Section</h3>
+                                    <hr />
+                                </div>
+                                <div className="col-12">
+                                    {subjective}
+                                </div> 
+                                <br></br><br></br>                            
+                            </div>
+                            
+                        </div>
                     </div>
-                    <div className="row">  
-                        <div className="col-12">
-                            <h3>Numerical Questions Section</h3>
-                            <hr />
-                        </div>
-                        <div className="col-12">
-                            {numerical}
-                        </div>
-                        <br></br><br></br>    
-                    </div>
-                    <div className="row">  
-                        <div className="col-12">
-                            <h3>Subjective Questions Section</h3>
-                            <hr />
-                        </div>
-                        <div className="col-12">
-                            {subjective}
-                        </div> 
-                        <br></br><br></br>                            
-                    </div>
+                            
                 </div>
             );
         }
