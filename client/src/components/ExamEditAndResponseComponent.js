@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Control, Form, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import { Button, Label, Row, Col } from 'reactstrap';
@@ -8,7 +7,6 @@ const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => (val) && (val.length >= len);
 const isNumber = (val) => !isNaN(Number(val));
-const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 class ExamEditAndResponse extends Component {
 
@@ -253,7 +251,7 @@ class ExamEditAndResponse extends Component {
                                             placeholder="Marks"
                                             className="form-control"
                                             validators={{
-                                                required, minLength: minLength(3), maxLength: maxLength(15), isNumber
+                                                required, minLength: minLength(1), maxLength: maxLength(15), isNumber
                                             }}
                                              />
                                         <Errors
@@ -262,7 +260,7 @@ class ExamEditAndResponse extends Component {
                                             show="touched"
                                             messages={{
                                                 required: 'Required',
-                                                minLength: 'Must be greater than 2 numbers',
+                                                minLength: 'Must be greater than 0 numbers',
                                                 maxLength: 'Must be 15 numbers or less',
                                                 isNumber: 'Must be a number'
                                             }}
@@ -332,7 +330,7 @@ class ExamEditAndResponse extends Component {
                                             placeholder="Marks"
                                             className="form-control"
                                             validators={{
-                                                required, minLength: minLength(3), maxLength: maxLength(15), isNumber
+                                                required, minLength: minLength(1), maxLength: maxLength(15), isNumber
                                             }}
                                              />
                                         <Errors
@@ -341,7 +339,7 @@ class ExamEditAndResponse extends Component {
                                             show="touched"
                                             messages={{
                                                 required: 'Required',
-                                                minLength: 'Must be greater than 2 numbers',
+                                                minLength: 'Must be greater than 0 numbers',
                                                 maxLength: 'Must be 15 numbers or less',
                                                 isNumber: 'Must be a number'
                                             }}
@@ -389,7 +387,7 @@ class ExamEditAndResponse extends Component {
                                             placeholder="Marks"
                                             className="form-control"
                                             validators={{
-                                                required, minLength: minLength(3), maxLength: maxLength(15), isNumber
+                                                required, minLength: minLength(1), maxLength: maxLength(15), isNumber
                                             }}
                                              />
                                         <Errors
@@ -398,7 +396,7 @@ class ExamEditAndResponse extends Component {
                                             show="touched"
                                             messages={{
                                                 required: 'Required',
-                                                minLength: 'Must be greater than 2 numbers',
+                                                minLength: 'Must be greater than 0 numbers',
                                                 maxLength: 'Must be 15 numbers or less',
                                                 isNumber: 'Must be a number'
                                             }}

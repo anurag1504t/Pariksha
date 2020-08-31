@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Pariksha_logo from '../shared/Pariksha_logo.jpeg';
 import { Media } from 'reactstrap';
 
