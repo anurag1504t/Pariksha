@@ -90,6 +90,7 @@ class Main extends Component {
                     postMultiple={this.props.postMultiple}
                     postNumerical={this.props.postNumerical}
                     postSubjective={this.props.postSubjective}
+                    fetchExams={this.props.fetchExams}
                 />
             );
         }

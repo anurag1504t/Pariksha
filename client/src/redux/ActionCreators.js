@@ -294,7 +294,7 @@ export const postMultiple = (examId, userResponse) => (dispatch) => {
         
     const bearer = 'Bearer ' + localStorage.getItem('token');
     
-    return fetch(`${baseUrl + examId}/multiple`, {
+    return fetch(`${baseUrl}exams/${examId}/multiple`, {
         method: "POST",
         body: JSON.stringify(userResponse),
         headers: {
@@ -316,7 +316,7 @@ export const postMultiple = (examId, userResponse) => (dispatch) => {
         throw error;
     })
     .then(response => response.json())
-    .then(response => { console.log('Multiple Choice Question', response); alert('Multiple Choice Question Added\n'+JSON.stringify(response)); })
+    .then(response => { console.log('Multiple Choice Question', response); alert('Multiple Choice Question Added'); })
     .catch(error =>  { console.log('Multiple Choice Question', error.message); alert('Failed to add Multiple Choice Question\nError: '+error.message); });
 };
 
@@ -324,7 +324,7 @@ export const postNumerical = (examId, userResponse) => (dispatch) => {
         
     const bearer = 'Bearer ' + localStorage.getItem('token');
     
-    return fetch(`${baseUrl + examId}/numerical`, {
+    return fetch(`${baseUrl}exams/${examId}/numerical`, {
         method: "POST",
         body: JSON.stringify(userResponse),
         headers: {
@@ -346,7 +346,7 @@ export const postNumerical = (examId, userResponse) => (dispatch) => {
         throw error;
     })
     .then(response => response.json())
-    .then(response => { console.log('Numerical Question', response); alert('Numerical Question Added\n'+JSON.stringify(response)); })
+    .then(response => { console.log('Numerical Question', response); alert('Numerical Question Added'); })
     .catch(error =>  { console.log('Numerical Question', error.message); alert('Failed to add Numerical Question\nError: '+error.message); });
 };
 
@@ -354,7 +354,7 @@ export const postSubjective = (examId, userResponse) => (dispatch) => {
         
     const bearer = 'Bearer ' + localStorage.getItem('token');
     
-    return fetch(`${baseUrl + examId}/subjective`, {
+    return fetch(`${baseUrl}exams/${examId}/subjective`, {
         method: "POST",
         body: JSON.stringify(userResponse),
         headers: {
@@ -376,6 +376,6 @@ export const postSubjective = (examId, userResponse) => (dispatch) => {
         throw error;
     })
     .then(response => response.json())
-    .then(response => { console.log('Subjective Question', response); alert('Subjective Question Added\n'+JSON.stringify(response)); })
+    .then(response => { console.log('Subjective Question', response); alert('Subjective Question Added'); })
     .catch(error =>  { console.log('Subjective Question', error.message); alert('Failed to add Subjective Question\nError: '+error.message); });
 };
