@@ -380,36 +380,6 @@ export const postSubjective = (examId, userResponse) => (dispatch) => {
     .catch(error =>  { console.log('Subjective Question', error.message); alert('Failed to add Subjective Question\nError: '+error.message); });
 };
 
-export const examInit = (examId) => (dispatch) => {
-        
-    const bearer = 'Bearer ' + localStorage.getItem('token');
-    
-    return fetch(`${baseUrl}response/`, {
-        method: "POST",
-        body: JSON.stringify({exam: examId}),
-        headers: {
-            "Content-Type": "application/json",
-            'Authorization': bearer
-        },
-        credentials: "same-origin"
-    })
-    .then(response => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error('Error ' + response.status + ': ' + response.statusText);
-          error.response = response;
-          throw error;
-        }
-    },
-    error => {
-        throw error;
-    })
-    .then(response => response.json())
-    .then(response => { console.log('Exam Init', response); alert('Environment Loaded Successfully. You can Start your Exam. \nBest of Luck'); })
-    .catch(error =>  { console.log('Exam Init Error', error.message); alert('Error Occured.\nError: '+error.message); });
-};
-
 export const postMultipleResponse = (examId, userResponse) => (dispatch) => {
         
     const bearer = 'Bearer ' + localStorage.getItem('token');

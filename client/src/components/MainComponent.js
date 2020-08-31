@@ -11,7 +11,7 @@ import EditExam from './EditExamComponent';
 import { actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { postComment, fetchExams, fetchComments, postFeedback, loginUser, logoutUser, fetchResults, fetchResponses, 
-    postMultiple, postNumerical, postSubjective, examInit, postMultipleResponse, postNumericalResponse,postSubjectiveResponse } from '../redux/ActionCreators';
+    postMultiple, postNumerical, postSubjective, postMultipleResponse, postNumericalResponse,postSubjectiveResponse } from '../redux/ActionCreators';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -39,7 +39,6 @@ const mapDispatchToProps = dispatch => ({
     postMultiple: (examId, userResponse) => dispatch(postMultiple(examId, userResponse)),
     postNumerical: (examId, userResponse) => dispatch(postNumerical(examId, userResponse)),
     postSubjective: (examId, userResponse) => dispatch(postSubjective(examId, userResponse)),
-    examInit: (examId) => dispatch(examInit(examId)),
     postMultipleResponse: (examId, userResponse) => dispatch(postMultipleResponse(examId, userResponse)),
     postNumericalResponse: (examId, userResponse) => dispatch(postNumericalResponse(examId, userResponse)),
     postSubjectiveResponse: (examId, userResponse) => dispatch(postSubjectiveResponse(examId, userResponse)),
@@ -81,7 +80,6 @@ class Main extends Component {
                     postMultipleResponse={this.props.postMultipleResponse}
                     postNumericalResponse={this.props.postNumericalResponse}
                     postSubjectiveResponse={this.props.postSubjectiveResponse}
-                    examInit={this.props.examInit}
                 />
             );
         }
@@ -137,10 +135,10 @@ class Main extends Component {
                             <Switch>
                                 <Route path='/home' component={HomePage} />
                                 <Route exact path='/aboutus' component={About} />
-                                <Route exact path='/edit/:examId' component={ExamEditWithDetail}/>
-                                <Route exact path='/exams' component={() => <Exam exams={this.props.exams} />} />
-                                <Route exact path='/exams/:examId' component={ExamWithId} />
-                                <Route exact path='/edits/exam' component={ExamEdit} />
+                                <PrivateRoute exact path='/edit/:examId' component={ExamEditWithDetail}/>
+                                <PrivateRoute exact path='/exams' component={() => <Exam exams={this.props.exams} />} />
+                                <PrivateRoute exact path='/exams/:examId' component={ExamWithId} />
+                                <PrivateRoute exact path='/edits/exam' component={ExamEdit} />
                                 <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} />} />
                                 <Redirect to="/home" />
                             </Switch>
