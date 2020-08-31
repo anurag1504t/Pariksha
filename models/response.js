@@ -36,10 +36,6 @@ var Subjective = new Schema({
         type: String,
         required: true
     },
-    answer: {
-        type: String,
-        required: true
-    },
     response: {
         type: String,
         required: true

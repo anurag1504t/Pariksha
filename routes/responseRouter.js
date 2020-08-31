@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const Responses = require('../models/response');
 var authenticate = require('../authenticate');
+const { response } = require('express');
 
 const responseRouter = express.Router();
 responseRouter.use(bodyParser.json());
@@ -46,7 +47,7 @@ responseRouter.route('/')
     res.end('PUT operation not supported on /responses');
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
-    Response.remove({})
+    Responses.remove({})
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -55,50 +56,148 @@ responseRouter.route('/')
     .catch((err) => next(err));    
 });
 
-// Methods for http://localhost:3000/response/:responseId API end point
-responseRouter.route('/:responseId')
-.get((req,res,next) => {
-    Response.findById(req.params.responseId)
+responseRouter.route('/:examId/multiple')
+.post(authenticate.verifyUser, (req, res, next) => {
+    Responses.findOne({exam:req.params.examId, student: req.user._id})
     .then((response) => {
-        Response.findById(response._id)
-        .populate('student')
-        .populate('exam')
-        .then((response) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(response);
-        })
+        if(response != null) {
+            var pushed = false;
+            for(var i = (response.multiple.length - 1); i >= 0; i--) {
+                if(response.multiple[i].question == req.body.question) {
+                    response.multiple[i].response = req.body.response;
+                    pushed = true;
+                    break;
+                }
+            }
+            if(pushed === false) {
+                response.multiple.push(req.body);                
+            }
+            response.save()
+            .then((response) => {
+                Responses.findById(response._id)
+                .populate('student')
+                .then((response) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(response);
+                })               
+            }, (err) => next(err));
+        }
+        else {            
+            Responses.create({exam:req.params.examId, student: req.user._id})
+            .then((response) => {
+                response.multiple.push(req.body);
+                response.save()
+                .then((response) => {
+                    Responses.findById(response._id)
+                    .populate('student')
+                    .then((response) => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json(response);
+                    })               
+                }, (err) => next(err));
+            }, (err) => next(err))
+            .catch((err) => next(err));           
+        }
     }, (err) => next(err))
-    .catch((err) => next(err));
-})
-.post((req, res, next) => {
-    res.statusCode = 403;
-    res.end(`POST operation not supported on /responses/${req.params.responseId}`);
-})
-.put(authenticate.verifyUser, (req, res, next) => {
-    Response.findByIdAndUpdate(req.params.responseId, {
-        $set: req.body
-    }, { new: true })
+    .catch((err) => next(err)); 
+}); 
+
+responseRouter.route('/:examId/numerical')
+.post(authenticate.verifyUser, (req, res, next) => {
+    Responses.findOne({exam:req.params.examId, student: req.user._id})
     .then((response) => {
-        Response.findById(response._id)
-        .populate('student')
-        .populate('exam')
-        .then((response) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(response);
-        })
+        if(response != null) {
+            var pushed = false;
+            for(var i = (response.numerical.length - 1); i >= 0; i--) {
+                if(response.numerical[i].question == req.body.question) {
+                    response.numerical[i].response = req.body.response;
+                    pushed = true;
+                    break;
+                }
+            }
+            if(pushed === false) {
+                response.numerical.push(req.body);                
+            }
+            response.save()
+            .then((response) => {
+                Responses.findById(response._id)
+                .populate('student')
+                .then((response) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(response);
+                })               
+            }, (err) => next(err));
+        }
+        else {            
+            Responses.create({exam:req.params.examId, student: req.user._id})
+            .then((response) => {
+                response.numerical.push(req.body);
+                response.save()
+                .then((response) => {
+                    Responses.findById(response._id)
+                    .populate('student')
+                    .then((response) => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json(response);
+                    })               
+                }, (err) => next(err));
+            }, (err) => next(err))
+            .catch((err) => next(err));           
+        }
     }, (err) => next(err))
-    .catch((err) => next(err));
-})
-.delete(authenticate.verifyUser, (req, res, next) => {
-    Response.findByIdAndRemove(req.params.responseId)
-    .then((resp) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
+    .catch((err) => next(err)); 
+}); 
+
+responseRouter.route('/:examId/subjective')
+.post(authenticate.verifyUser, (req, res, next) => {
+    Responses.findOne({exam:req.params.examId, student: req.user._id})
+    .then((response) => {
+        if(response != null) {
+            var pushed = false;
+            for(var i = (response.subjective.length - 1); i >= 0; i--) {
+                if(response.subjective[i].question == req.body.question) {
+                    response.subjective[i].response = req.body.response;
+                    pushed = true;
+                    break;
+                }
+            }
+            if(pushed === false) {
+                response.subjective.push(req.body);                
+            }
+            response.save()
+            .then((response) => {
+                Responses.findById(response._id)
+                .populate('student')
+                .then((response) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(response);
+                })               
+            }, (err) => next(err));
+        }
+        else {            
+            Responses.create({exam:req.params.examId, student: req.user._id})
+            .then((response) => {
+                response.subjective.push(req.body);
+                response.save()
+                .then((response) => {
+                    Responses.findById(response._id)
+                    .populate('student')
+                    .then((response) => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json(response);
+                    })               
+                }, (err) => next(err));
+            }, (err) => next(err))
+            .catch((err) => next(err));           
+        }
     }, (err) => next(err))
-    .catch((err) => next(err));
-});
+    .catch((err) => next(err)); 
+}); 
 
 module.exports = responseRouter;

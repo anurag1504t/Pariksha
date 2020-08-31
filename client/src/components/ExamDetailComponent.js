@@ -14,34 +14,39 @@ class ExamDetail extends Component {
         this.handleMultiple = this.handleMultiple.bind(this);
         this.handleNumerical = this.handleNumerical.bind(this);
         this.handleSubjective = this.handleSubjective.bind(this);
-        
-        this.state = {
-          score: 0,
-          attempted: 0
-        };
     }
 
-    handleMultiple(values, Question, Solution) {
+    handleMultiple(examId, values, Question, Solution) {
         var response = {};
         response.question = Question;
         response.answer = Solution;
         response.response = values.response;
-        alert("Current State is: " + JSON.stringify(response));
-        // return false;
-        // postMultiple(this.props.exam._id, )
-    }
-
-    handleNumerical(values, Question, Answer) {
-        alert("Current State is: " + JSON.stringify(values));
+        // alert("Current State is: " + JSON.stringify(response));
+        this.props.postMultipleResponse(examId, response);
         // return false;
     }
 
-    handleSubjective(values, Question, Answer) {
-        alert("Current State is: " + JSON.stringify(values));
+    handleNumerical(examId, values, Question, Solution) {
+        var response = {};
+        response.question = Question;
+        response.answer = Solution;
+        response.response = values.response;
+        // alert("Current State is: " + JSON.stringify(response));
+        this.props.postNumericalResponse(examId, response);
+        // return false;
+    }
+
+    handleSubjective(examId, values, Question) {
+        var response = {};
+        response.question = Question;
+        response.response = values.response;
+        // alert("Current State is: " + JSON.stringify(response));
+        this.props.postSubjectiveResponse(examId, response);
         // return false;
     }
 
     render() {
+        
         if (this.props.isLoading) {
             return(
                 <div className="container">
@@ -64,7 +69,7 @@ class ExamDetail extends Component {
             
             const multiple = this.props.exam.multiple.map((Question, index) => {
                 return (
-                    <LocalForm key={Question._id} onSubmit={(values) => this.handleMultiple(values, Question.question, Question.solution)}>
+                    <LocalForm key={Question._id} onSubmit={(values) => this.handleMultiple(this.props.exam._id, values, Question.question, Question.solution)}>
                         <Row className="form-group">
                             <Col>
                                 <Label htmlFor="multiple">Question {index + 1}: {Question.question}</Label>
@@ -84,7 +89,7 @@ class ExamDetail extends Component {
 
             const numerical = this.props.exam.numerical.map((Question, index) => {
                 return (
-                    <LocalForm key={Question._id} onSubmit={(values) => this.handleNumerical(values, Question.question, Question.solution)}>
+                    <LocalForm key={Question._id} onSubmit={(values) => this.handleNumerical(this.props.exam._id, values, Question.question, Question.solution)}>
                         <Row className="form-group">
                             <Col>
                                 <Label htmlFor="answer">Question {index + 1}: {Question.question}</Label>
@@ -98,7 +103,7 @@ class ExamDetail extends Component {
 
             const subjective = this.props.exam.subjective.map((Question, index) => {
                 return (
-                    <LocalForm key={Question._id} onSubmit={(values) => this.handleSubjective(values, Question.question, Question.solution)}>
+                    <LocalForm key={Question._id} onSubmit={(values) => this.handleSubjective(this.props.exam._id, values, Question.question)}>
                         <Row className="form-group">
                             <Col>
                                 <Label htmlFor="answer">Question {index + 1}: {Question.question}</Label>

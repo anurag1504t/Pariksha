@@ -55,9 +55,14 @@ const Exam = (props) => {
                         <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
                         <BreadcrumbItem active>Exams</BreadcrumbItem>
                     </Breadcrumb>
-                    <div className="col-12">
+                </div>
+                <div className='row'>    
+                    <div className="col">
                         <h3>Active Exams</h3>
-                        <hr />
+                        <hr />  
+                    </div>
+                    <div className= "ml-auto">
+                        <Link to='/edits/exam'><Button outline className= "ml-auto"><span className="fa fa-pencil fa-lg"></span>Edit Exams</Button></Link>
                     </div>                
                 </div>
                 <div className="row">
