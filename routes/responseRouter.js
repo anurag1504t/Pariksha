@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 const Responses = require('../models/response');
 var authenticate = require('../authenticate');
-const { response } = require('express');
 
 const responseRouter = express.Router();
 responseRouter.use(bodyParser.json());

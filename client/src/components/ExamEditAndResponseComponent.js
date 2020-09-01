@@ -96,6 +96,61 @@ class ExamEditAndResponse extends Component {
                         <h6>Question {index + 1}: {Question.question}</h6>
                     </div>
                 );
+            });            
+
+            const responses = this.props.responses.map((response, index) => {
+
+                const multipleResponse = response.multiple.map((Question, index) => {
+                    return (
+                        <div className="MCQ" key={Question._id}>
+                            <h6>Question {index + 1}: {Question.question}</h6>
+                            <h6>Answer: {Question.answer}</h6>
+                            <h6>Response: {Question.response}</h6>
+                        </div>
+                    );
+                });
+    
+                const numericalResponse = response.numerical.map((Question, index) => {
+                    return (
+                        <div className="Numerical" key={Question._id}>
+                            <h6>Question {index + 1}: {Question.question}</h6>
+                            <h6>Answer: {Question.answer}</h6>
+                            <h6>Response: {Question.response}</h6>
+                        </div>
+                    );
+                });
+    
+                const subjectiveResponse = response.subjective.map((Question, index) => {
+                    return (
+                        <div className="Numerical" key={Question._id}>
+                            <h6>Question {index + 1}: {Question.question}</h6>
+                            <h6>Response: {Question.response}</h6>
+                        </div>
+                    );
+                });
+
+                return (
+                    <div key= {response._id} className="response">
+                        <h3>Response Number: {index + 1}</h3>
+                        <h5>Student ID: {response.student}</h5>
+                        <hr />
+                        <h5>Multiple Choice Questions</h5>
+                        <div>
+                            {multipleResponse}
+                        </div>
+                        <hr />
+                        <h5>Numerical Questions</h5>
+                        <div>
+                            {numericalResponse}
+                        </div>
+                        <hr />
+                        <h5>Subjective Questions</h5>
+                        <div>
+                            {subjectiveResponse}
+                        </div>
+                        <hr />
+                    </div>
+                );
             });
 
             return (
@@ -448,7 +503,20 @@ class ExamEditAndResponse extends Component {
                             
                         </div>
                     </div>
-                            
+
+                    <br></br>     
+                    <br></br> 
+                    <br></br>    
+                    <div className="row">
+                        <div className="col-12">
+                            <h1>{this.props.exam.title} Saved Responses</h1>
+                            <hr />
+                        </div>
+                        <div className="col-12">
+                            {responses}
+                        </div> 
+                        <br></br><br></br>
+                    </div>
                 </div>
             );
         }

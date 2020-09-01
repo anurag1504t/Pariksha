@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const Results = require('../models/result');
+const Responses = require('../models/response');
 var authenticate = require('../authenticate');
 
 const resultRouter = express.Router();
@@ -55,50 +56,85 @@ resultRouter.route('/')
     .catch((err) => next(err));    
 });
 
-// Methods for http://localhost:3000/results/:resultId API end point
-resultRouter.route('/:resultId')
-.get((req,res,next) => {
-    Results.findById(req.params.resultId)
-    .then((result) => {
-        Results.findById(result._id)
-        .populate('student')
-        .populate('exam')
-        .then((result) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(result);
-        })
+// Methods for http://localhost:3000/results/:examId API end point
+resultRouter.route('/:examId')
+.post(authenticate.verifyUser, (req, res, next) => {
+    Responses.findOne({exam:req.params.examId, student: req.user._id})
+    .then((response) => {
+        if(response != null){
+            var scored = 0;
+            var maxScored = 0;
+            for(var i = (response.multiple.length - 1); i >= 0; i--) {
+                if(response.multiple[i].answer == response.multiple[i].response) {
+                    scored = scored + 1;
+                }
+            }
+            for(var i = (response.numerical.length - 1); i >= 0; i--) {
+                if(response.numerical[i].answer == response.numerical[i].response) {
+                    scored = scored + 1;
+                }
+            }
+            maxScored = response.multiple.length + response.numerical.length;
+            response.attempts = req.body.attempts;
+            response.save()
+            .then((response) => {
+                console.log(response)
+            }, (err) => next(err));
+            Results.create({
+                score: scored,
+                maxScore : maxScored,
+                exam : req.params.examId,
+                student: req.user._id
+            })
+            .then((result) => {
+                Results.findById(result._id)
+                .populate('exam')
+                .then((result) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(result);
+                })  
+            }, (err) => next(err));
+        }
+        else {
+            Results.create({
+                score: 0,
+                maxScore : 0,
+                exam : req.params.examId,
+                student: req.user._id
+            })
+            .then((result) => {
+                Results.findById(result._id)
+                .populate('exam')
+                .then((result) => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(result);
+                })  
+            }, (err) => next(err));
+        }
     }, (err) => next(err))
     .catch((err) => next(err));
-})
-.post((req, res, next) => {
-    res.statusCode = 403;
-    res.end(`POST operation not supported on /results/${req.params.resultId}`);
-})
-.put(authenticate.verifyUser, (req, res, next) => {
-    Results.findByIdAndUpdate(req.params.resultId, {
-        $set: req.body
-    }, { new: true })
-    .then((result) => {
-        Results.findById(result._id)
-        .populate('student')
-        .populate('exam')
-        .then((result) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(result);
-        })
-    }, (err) => next(err))
-    .catch((err) => next(err));
-})
-.delete(authenticate.verifyUser, (req, res, next) => {
-    Results.findByIdAndRemove(req.params.resultId)
-    .then((resp) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    // if (req.body != null) {
+
+    //     Results.create(req.body)
+    //     .then((result) => {
+    //         Results.findById(result._id)
+    //         .populate('student')
+    //         .populate('exam')
+    //         .then((result) => {
+    //             res.statusCode = 200;
+    //             res.setHeader('Content-Type', 'application/json');
+    //             res.json(result);
+    //         })
+    //     }, (err) => next(err))
+    //     .catch((err) => next(err));
+    // }
+    // else {
+    //     err = new Error('Result information not found in request body');
+    //     err.status = 404;
+    //     return next(err);
+    // }
 });
 
 module.exports = resultRouter;

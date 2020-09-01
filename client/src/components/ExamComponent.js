@@ -62,7 +62,7 @@ const Exam = (props) => {
                         <hr />  
                     </div>
                     <div className= "ml-auto">
-                        <Link to='/edits/exam'><Button outline className= "ml-auto"><span className="fa fa-pencil fa-lg"></span>Edit Exams</Button></Link>
+                        <Link to='/edits/exam'><Button outline className= "ml-auto"><span className="fa fa-pencil fa-lg"></span>Edit Exams & Responses </Button></Link>
                     </div>                
                 </div>
                 <div className="row">

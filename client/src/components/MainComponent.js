@@ -11,7 +11,7 @@ import EditExam from './EditExamComponent';
 import { actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { postComment, fetchExams, fetchComments, postFeedback, loginUser, logoutUser, fetchResults, fetchResponses, 
-    postMultiple, postNumerical, postSubjective, postMultipleResponse, postNumericalResponse,postSubjectiveResponse } from '../redux/ActionCreators';
+    postMultiple, postNumerical, postSubjective, postMultipleResponse, postNumericalResponse, postSubjectiveResponse, postTest } from '../redux/ActionCreators';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -42,6 +42,7 @@ const mapDispatchToProps = dispatch => ({
     postMultipleResponse: (examId, userResponse) => dispatch(postMultipleResponse(examId, userResponse)),
     postNumericalResponse: (examId, userResponse) => dispatch(postNumericalResponse(examId, userResponse)),
     postSubjectiveResponse: (examId, userResponse) => dispatch(postSubjectiveResponse(examId, userResponse)),
+    postTest: (examId, userResponse) => dispatch(postTest(examId, userResponse)),
     loginUser: (creds) => dispatch(loginUser(creds)),
     logoutUser: () => dispatch(logoutUser())
 });
@@ -64,7 +65,7 @@ class Main extends Component {
                     loginUser={this.props.loginUser} 
                     logoutUser={this.props.logoutUser} 
                     exams={this.props.exams}
-                    results={this.props.results}                
+                    results={this.props.results}              
                 />               
             );            
         }
@@ -80,6 +81,7 @@ class Main extends Component {
                     postMultipleResponse={this.props.postMultipleResponse}
                     postNumericalResponse={this.props.postNumericalResponse}
                     postSubjectiveResponse={this.props.postSubjectiveResponse}
+                    postTest={this.props.postTest}
                 />
             );
         }
@@ -90,6 +92,7 @@ class Main extends Component {
                     isLoading={this.props.exams.isLoading}
                     errMess={this.props.exams.errMess}
                     comments={this.props.comments.comments.filter((comment) => comment.exam === match.params.examId)}
+                    responses={this.props.responses.responses.filter((responses) => responses.exam === match.params.examId)}
                     commentsErrMess={this.props.comments.errMess}
                     postComment={this.props.postComment}
                     resetMultipleForm={this.props.resetMultipleForm}

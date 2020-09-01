@@ -2,18 +2,36 @@ import React, { Component } from 'react';
 import { Control, LocalForm } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import { Button, Label, Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
-const UFM = (props) => {
+const UFM = () => {
     const handleKeyDown = (event) => {
-      console.log('A key was pressed', event.keyCode);
+        console.log('A key was pressed', event.keyCode);
+        if(event.keyCode === 17) {
+            alert("You tried to Copy a content. It is Forbidenfor this Test. If you attempt again, your test would be ended.")
+        }
+    };
+
+    const handleKeyUp = (event) => {
+        console.log('A key was pressed', event.keyCode);
+        if(event.keyCode === 44) {
+            this.props.attempts = this.props.attempts + 1;
+            alert("You tried to Take ScreenShot. It is Forbiden for this Test. If you attempt again, your test would be ended.")
+        }
+        if(event.keyCode === 91) {
+            alert("You tried to Take ScreenShot. It is Forbiden for this Test. If you attempt again, your test would be ended.")
+            this.props.attempts = this.props.attempts + 1;
+        }
     };
   
     React.useEffect(() => {
       window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('keyup', handleKeyUp);
   
       // cleanup this component
       return () => {
         window.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('keyup', handleKeyUp);
       };
     }, []);
   
@@ -32,7 +50,11 @@ class ExamDetail extends Component {
         this.handleMultiple = this.handleMultiple.bind(this);
         this.handleNumerical = this.handleNumerical.bind(this);
         this.handleSubjective = this.handleSubjective.bind(this);
-        // this.handleSubmitTest = this.handleSubmitTest.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+
+        this.state = {
+            attempts: 0
+        };
     }
 
     handleMultiple(examId, values, Question, Solution) {
@@ -64,9 +86,11 @@ class ExamDetail extends Component {
         // return false;
     }
 
-    // handleSubmitTest() {
-    //     alert("Your Test Ended");
-    // }
+    handleClick(examId, values) {
+        this.props.postTest(examId, this.state.attempts);
+        console.log(this.state.attempts);
+        console.log('The link was clicked.');
+    }
 
     render() {
         
@@ -140,7 +164,7 @@ class ExamDetail extends Component {
 
             return (
                 <div className="container">
-                    <UFM />
+                    <UFM attempts={this.state.attempts}/>
                     <div className="row">
                         <div className="col-12">
                             <h1>{this.props.exam.title}</h1>
@@ -180,7 +204,12 @@ class ExamDetail extends Component {
                                                     
                     </div>
                     <br></br><br></br>
-                    <EndTest />
+                    <div> 
+                        <Link to='/home'>
+                            <Button onClick={(values) => this.handleClick(this.props.exam._id, values)} color="danger" size="lg" block>End Test</Button>
+                        </Link>  
+                        <br></br><br></br>
+                    </div>
                 </div>
             );
         }
@@ -192,19 +221,5 @@ class ExamDetail extends Component {
 
     }
 }
-
-function EndTest() {
-    function handleClick(e) {
-    //   e.preventDefault();
-      console.log('The link was clicked.');
-    }
-  
-    return (
-        <div>        
-            <Button onClick={handleClick} color="danger" size="lg" block>End Test</Button>
-            <br></br><br></br>
-        </div>
-    );
-  }
 
 export default ExamDetail;

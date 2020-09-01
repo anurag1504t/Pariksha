@@ -51,6 +51,10 @@ const responseScema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    attempts: {
+        type: String,
+        default: ''
+    },
     multiple: [MCQ],
     numerical: [Numerical],
     subjective: [Subjective]
