@@ -46,22 +46,10 @@ class Header extends Component {
     render() {
         return(
             <React.Fragment>
-                <Jumbotron>
-                    <div className="container">
-                        <div className="row row-header">
-                            <div className="col-12 col-sm-6">
-                                <NavbarBrand className="mr-auto" href="/">
-                                    <img src={Pariksha_logo.jpeg} height="100" width="100" alt="Pariksha" /> 
-                                </NavbarBrand>
-                                <h1>परीक्षा</h1>
-                            </div>
-                        </div>
-                    </div>
-                </Jumbotron>
                 <Navbar dark expand="md">
                     <div className="container">
                         <NavbarToggler onClick={this.toggleNav} />
-                        {/* <NavbarBrand className="mr-auto" href="/">Pariksha</NavbarBrand> */}
+                        <NavbarBrand className="mr-auto" href="/">Pariksha     </NavbarBrand>
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                             <Nav navbar>
                                 <NavItem>

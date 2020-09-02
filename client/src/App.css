@@ -42,6 +42,10 @@ address{
   margin:0px auto;
 }
 
+.about {
+  text-align: center;
+}
+
 .page-enter {
   opacity: 0.01;
   transform: translateX(-100%);

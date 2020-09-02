@@ -33,16 +33,21 @@ class Contact extends Component {
                     <Breadcrumb>
                         <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
                         <BreadcrumbItem active>Contact Us</BreadcrumbItem>
-                    </Breadcrumb>
+                    </Breadcrumb>                    
                     <div className="col-12">
                         <h3>Contact Us</h3>
                         <hr />
-                    </div>                
+                    </div>  
+                    <div className="col-12">
+                        <h3>Contact Details:</h3>
+                        <hr />
+                        <p>Email: anurag1504t@gmail.com, bcs_201811@iiitm.ac.in</p>
+                    </div>              
                 </div>
                 <div className="row row-content">
-                   <div className="col-12">
-                      <h3>Send us your Feedback</h3>
-                   </div>
+                    <div className="col-12">
+                       <h3>Send us your Feedback</h3>
+                    </div>
                     <div className="col-12 col-md-9">
                         <LocalForm model="feedback" onSubmit={(values) => this.handleSubmit(values)}>
                             <Row className="form-group">

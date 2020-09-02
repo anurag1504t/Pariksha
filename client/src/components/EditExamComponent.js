@@ -120,6 +120,18 @@ class EditExam extends Component {
                     <div className="row">
                         {Exams}
                     </div>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
                 </div>
             );
         }

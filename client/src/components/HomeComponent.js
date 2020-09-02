@@ -2,6 +2,7 @@ import React from 'react';
 import Pariksha_logo from '../shared/Pariksha_logo.jpeg';
 import { Media } from 'reactstrap';
 import { Toast, ToastBody, ToastHeader } from 'reactstrap';
+import About from './AboutComponent';
 
 const RenderResult = (props) => {
     const Results = props.results.results.map((result) => {
@@ -47,46 +48,32 @@ function RenderSelf() {
 }
 
 function Home(props) {
-    // if (props.exams.isLoading) {
-    //     return(
-    //         <div className="container">
-    //             <div className="row">
-    //                 <Loading />
-    //             </div>
-    //         </div>
-    //     );
-    // }
-    // else if (props.exams.errMess) {
-    //     return(
-    //         <div className="container">
-    //             <div className="row">
-    //                 <h4>{props.exams.errMess}</h4>
-    //             </div>
-    //         </div>
-    //     );
-    // }
-    // else {
         return(
             <div className="container">
-                <div className="container">
-                    <h1>Hi, Welcome to Pariksha ...</h1>
-                    <hr/>
-                    <br></br>
-                    <br></br>
-                </div>
-                <RenderSelf />
-                <br></br>
-                <br></br>
-                <div className="container">
-                    <h1>Your Results</h1>
-                    <hr/>
-                    <RenderResult results={props.results} exams={props.exams}/>
-                </div>
-                <br></br>
-                <br></br>
+                { !props.auth.isAuthenticated ?
+                    <About />
+                    :
+                    <div>
+                        <div className="container">
+                            <h1>Hi, Welcome to Pariksha ...</h1>
+                            <hr/>
+                            <br></br>
+                            <br></br>
+                        </div>
+                        <RenderSelf />
+                        <br></br>
+                        <br></br>
+                        <div className="container">
+                            <h1>Your Results</h1>
+                            <hr/>
+                            <RenderResult results={props.results} exams={props.exams}/>
+                        </div>
+                        <br></br>
+                        <br></br>
+                    </div>
+                }
             </div>
         );
-    // }
 }
 
 
