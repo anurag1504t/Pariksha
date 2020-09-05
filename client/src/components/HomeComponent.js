@@ -6,12 +6,11 @@ import About from './AboutComponent';
 
 const RenderResult = (props) => {
     const Results = props.results.results.map((result) => {
-        var presentExam  = props.exams.exams.filter((exam) => exam._id === result.exam)[0]
         return (
             <div key={result._id} className="p-3 bg-secondary my-2 rounded">
                 <Toast>
                     <ToastHeader>
-                    Exam Title: {presentExam.title}
+                    Exam Title: {result.exam.title}
                     </ToastHeader>
                     <ToastBody>
                         Marks Obtained: {result.score}/{result.maxScore} <br></br>
