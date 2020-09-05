@@ -110,7 +110,7 @@ class Main extends Component {
         const ExamEdit = () => {
             return (
                 <EditExam  
-                    exams={this.props.exams} 
+                    exams={this.props.exams.exams} 
                     isLoading={this.props.exams.isLoading}
                     errMess={this.props.exams.errMess}
                     postExam={this.props.postExam}               

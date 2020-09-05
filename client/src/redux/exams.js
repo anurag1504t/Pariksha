@@ -13,7 +13,7 @@ export const Exams = (state = { isLoading: true, errMess: null, exams:[]}, actio
         
         case ActionTypes.ADD_EXAM:
             var exam = action.payload;
-            return { ...state, exams: state.exams.concat(exam)};
+            return { ...state, exams: [...state.exams, exam]};
 
         default:
             return state;

@@ -47,8 +47,8 @@ class EditExam extends Component {
     }   
 
     render() {
-
-        const Exams = this.props.exams.exams.map((exam) => {
+            
+        const Exams = this.props.exams.map((exam) => {
             return (
                 <div key={exam._id} className="col-12 col-md-4 mb-3" >
                     <RenderExamItem exam={exam} />
