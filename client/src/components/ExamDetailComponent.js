@@ -4,7 +4,9 @@ import { Loading } from './LoadingComponent';
 import { Button, Label, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-const UFM = () => {
+var attempts = 0;
+
+const UFM = (props) => {
     const handleKeyDown = (event) => {
         console.log('A key was pressed', event.keyCode);
         if(event.keyCode === 17) {
@@ -15,12 +17,12 @@ const UFM = () => {
     const handleKeyUp = (event) => {
         console.log('A key was pressed', event.keyCode);
         if(event.keyCode === 44) {
-            this.props.attempts = this.props.attempts + 1;
+            attempts = attempts + 1;
             alert("You tried to Take ScreenShot. It is Forbiden for this Test. If you attempt again, your test would be ended.")
         }
         if(event.keyCode === 91) {
             alert("You tried to Take ScreenShot. It is Forbiden for this Test. If you attempt again, your test would be ended.")
-            this.props.attempts = this.props.attempts + 1;
+            attempts = attempts + 1;
         }
     };
   
@@ -51,10 +53,6 @@ class ExamDetail extends Component {
         this.handleNumerical = this.handleNumerical.bind(this);
         this.handleSubjective = this.handleSubjective.bind(this);
         this.handleClick = this.handleClick.bind(this);
-
-        this.state = {
-            attempts: 0
-        };
     }
 
     handleMultiple(examId, values, Question, Solution) {
@@ -87,8 +85,8 @@ class ExamDetail extends Component {
     }
 
     handleClick(examId, values) {
-        this.props.postTest(examId, this.state.attempts);
-        console.log(this.state.attempts);
+        this.props.postTest(examId, attempts);
+        console.log(attempts);
         console.log('The link was clicked.');
     }
 
@@ -164,7 +162,7 @@ class ExamDetail extends Component {
 
             return (
                 <div className="container">
-                    <UFM attempts={this.state.attempts}/>
+                    <UFM />
                     <div className="row">
                         <div className="col-12">
                             <h1>{this.props.exam.title}</h1>

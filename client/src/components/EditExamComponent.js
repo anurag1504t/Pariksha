@@ -43,7 +43,7 @@ class EditExam extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        // this.props.postComment(this.props.dishId, values.rating, values.comment);
+        this.props.postExam(values);
     }   
 
     render() {
@@ -56,7 +56,7 @@ class EditExam extends Component {
             );
         });
 
-        if (this.props.exams.isLoading) {
+        if (this.props.isLoading) {
             return(
                 <div className="container">
                     <div className="row">
@@ -65,7 +65,7 @@ class EditExam extends Component {
                 </div>
             );
         }
-        else if (this.props.exams.errMess) {
+        else if (this.props.errMess) {
             return(
                 <div className="container">
                     <div className="row">
@@ -120,6 +120,7 @@ class EditExam extends Component {
                     <div className="row">
                         {Exams}
                     </div>
+                    
                     <br></br>
                     <br></br>
                     <br></br>

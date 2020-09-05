@@ -25,13 +25,9 @@ examRouter.route('/')
         req.body.faculty = req.user._id;
         Exams.create(req.body)
         .then((exam) => {
-            Exams.findById(exam._id)
-            .populate('faculty')
-            .then((exam) => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(exam);
-            })
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(exam);
         }, (err) => next(err))
         .catch((err) => next(err));
     }

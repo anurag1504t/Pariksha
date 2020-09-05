@@ -77,6 +77,41 @@ export const addExams = (exams) => ({
     payload: exams
 });
 
+export const addExam = (exam) => ({
+    type: ActionTypes.ADD_EXAM,
+    payload: exam
+});
+
+export const postExam = (values) => (dispatch) => {
+        
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    
+    return fetch(`${baseUrl}exams/`, {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+    },
+    error => {
+        throw error;
+    })
+    .then(response => response.json())
+    .then(response => { dispatch(addExam(response)); console.log('Exam Added', response); alert('Exam Added'); })
+    .catch(error =>  { console.log('Exam Add Failed ', error.message); alert('Failed to add Exam\nError: '+error.message); });
+};
+
 export const fetchComments = () => (dispatch) => {    
     return fetch(baseUrl + 'comments')
     .then(response => {
@@ -249,8 +284,13 @@ export const resultsFailed = (errmess) => ({
 });
 
 export const addResults = (results) => ({
-    type: ActionTypes.ADD_RESULT,
+    type: ActionTypes.ADD_RESULTS,
     payload: results
+});
+
+export const addResult = (result) => ({
+    type: ActionTypes.ADD_RESULT,
+    payload: result
 });
 
 export const fetchResponses = () => (dispatch) => {
@@ -496,6 +536,6 @@ export const postTest = (examId, userResponse) => (dispatch) => {
         throw error;
     })
     .then(response => response.json())
-    .then(response => { dispatch(addResults(response)); console.log('Test Result Created', response); alert('Test Ended Successfully'); })
+    .then(response => { dispatch(addResult(response)); console.log('Test Result Created', response); alert('Test Ended Successfully'); })
     .catch(error =>  { console.log('Test Result Error', error.message); alert('Failed to end Test Successfully. Try Again.\nError: '+error.message); });
 };

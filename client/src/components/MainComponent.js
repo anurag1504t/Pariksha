@@ -11,7 +11,7 @@ import EditExam from './EditExamComponent';
 import { actions } from 'react-redux-form';
 import { connect } from 'react-redux';
 import { postComment, fetchExams, fetchComments, postFeedback, loginUser, logoutUser, fetchResults, fetchResponses, 
-    postMultiple, postNumerical, postSubjective, postMultipleResponse, postNumericalResponse, postSubjectiveResponse, postTest } from '../redux/ActionCreators';
+    postMultiple, postNumerical, postSubjective, postMultipleResponse, postNumericalResponse, postSubjectiveResponse, postTest, postExam } from '../redux/ActionCreators';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -43,6 +43,7 @@ const mapDispatchToProps = dispatch => ({
     postNumericalResponse: (examId, userResponse) => dispatch(postNumericalResponse(examId, userResponse)),
     postSubjectiveResponse: (examId, userResponse) => dispatch(postSubjectiveResponse(examId, userResponse)),
     postTest: (examId, userResponse) => dispatch(postTest(examId, userResponse)),
+    postExam: (values) => dispatch(postExam(values)),
     loginUser: (creds) => dispatch(loginUser(creds)),
     logoutUser: () => dispatch(logoutUser())
 });
@@ -109,7 +110,10 @@ class Main extends Component {
         const ExamEdit = () => {
             return (
                 <EditExam  
-                    exams={this.props.exams}                
+                    exams={this.props.exams} 
+                    isLoading={this.props.exams.isLoading}
+                    errMess={this.props.exams.errMess}
+                    postExam={this.props.postExam}               
                 />               
             );            
         }

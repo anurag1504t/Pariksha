@@ -10,6 +10,10 @@ export const Exams = (state = { isLoading: true, errMess: null, exams:[]}, actio
 
         case ActionTypes.EXAMS_FAILED:
             return {...state, isLoading: false, errMess: action.payload};
+        
+        case ActionTypes.ADD_EXAM:
+            var exam = action.payload;
+            return { ...state, exams: state.exams.concat(exam)};
 
         default:
             return state;

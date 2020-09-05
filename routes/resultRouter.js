@@ -11,8 +11,9 @@ resultRouter.use(bodyParser.json());
 
 // Methods for http://localhost:3000/results/ API end point
 resultRouter.route('/')
-.get((req,res,next) => {
-    Results.find(req.query)
+.get(authenticate.verifyUser, (req,res,next) => {
+    Results.find({student: req.user._id})
+    .populate('exam')
     .then((results) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
