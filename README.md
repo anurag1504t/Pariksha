@@ -1,4 +1,4 @@
-![Logo of the project](https://raw.githubusercontent.com/jehna/readme-best-practices/master/sample-logo.png)
+![Pariksha_logo](https://user-images.githubusercontent.com/64521184/93327228-a9918f00-f837-11ea-8b3c-c54fc8556180.jpeg)
 
 # Pariksha
 > An Online Examination System
