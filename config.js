@@ -1,4 +1,4 @@
 module.exports = {
-    'secretKey': '12345-67890-09876-54321',
-    'mongoUrl' : 'mongodb+srv://Anurag:54GjMJFmLG3EaLF7@pariksha.fzjja.mongodb.net/pariksha?retryWrites=true&w=majority'
+    'secretKey': process.env.SECRET || "12345-67890-09876-54321",
+    'mongoUrl' : process.env.MONGODB_URI || "mongodb://localhost:27017/Pariksha"
 }
