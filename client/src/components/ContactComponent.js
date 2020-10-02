@@ -45,11 +45,27 @@ class Contact extends Component {
                     </div>  
                     
                 </div>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeRsNJ1H03q1_18YJNxpYzU9l936AapudCnrA8mVw8mWApGoQ/viewform" target="_blank">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeRsNJ1H03q1_18YJNxpYzU9l936AapudCnrA8mVw8mWApGoQ/viewform" target="_blank" >
                     Please help us
-                      to contribute more by providing your valuable feedback
-                  </a>        
-               
+                    to contribute more by providing your valuable feedback
+                  </a> 
+                  <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+                 
+
             </div>
         );
     }
